@@ -87,3 +87,27 @@ void LenovoMotherboardController::SetMode(uint8_t zone, uint8_t mode, uint8_t br
 
     hid_send_feature_report(dev, buffer, LENOVO_MB_PACKET_LENGTH);
 }
+
+void LenovoMotherboardController::DisableSync()
+{
+    SendCommand(LENOVO_MB_CMD_SYNC, 0x00, 0x00);
+}
+
+void LenovoMotherboardController::Apply()
+{
+    SendCommand(LENOVO_MB_CMD_APPLY_1, 0xFF, 0xFF);
+    SendCommand(LENOVO_MB_CMD_APPLY_2, 0x00, 0x00);
+}
+
+void LenovoMotherboardController::SendCommand(uint8_t command, uint8_t arg_1, uint8_t arg_2)
+{
+    uint8_t buffer[LENOVO_MB_PACKET_LENGTH];
+    memset(buffer, 0x00, LENOVO_MB_PACKET_LENGTH);
+
+    buffer[0]   = LENOVO_MB_REPORT_ID;
+    buffer[1]   = command;
+    buffer[2]   = arg_1;
+    buffer[3]   = arg_2;
+
+    hid_send_feature_report(dev, buffer, LENOVO_MB_PACKET_LENGTH);
+}
