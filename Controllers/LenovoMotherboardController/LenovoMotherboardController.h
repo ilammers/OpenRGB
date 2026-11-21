@@ -23,6 +23,11 @@
 |   Legion Tower 5 Gen 8 and Gen 10 layout.  Zone 0x12 is   |
 |   the top lights on the Gen 10 and the CPU fan on the     |
 |   older Legion T5 this driver was first written for.      |
+|                                                           |
+|   On board 378B (30IAS10), 0x14 lights the bottom fans,   |
+|   0x10 and 0x18 are not connected, and 0x15/0x16 are      |
+|   aliases of 0x12/0x14.  Lenovo's software sends both     |
+|   IDs of each pair.                                       |
 \*---------------------------------------------------------*/
 #define LENOVO_MB_ZONE_FRONT_FANS_1 0x10
 #define LENOVO_MB_ZONE_REAR_FAN     0x11
@@ -34,15 +39,17 @@
 
 /*---------------------------------------------------------*\
 | Commands                                                  |
-|   Lenovo's software sends both apply commands after every |
-|   change.  Without them, newer towers ignore the zone     |
-|   packets.  Sync (used by Lenovo's "cycle" effects) stays |
-|   on until it is cleared, and while it is on the zones    |
-|   take turns lighting up instead of all at once.          |
+|   Newer towers ignore the zone packets until APPLY is     |
+|   sent.  SAVE writes the current state to flash so it     |
+|   survives a power cycle, so it is only sent when the     |
+|   user asks to save.  Sync (used by Lenovo's "cycle"      |
+|   effects) stays on until it is cleared, and while it is  |
+|   on the zones take turns lighting up instead of all at   |
+|   once.                                                   |
 \*---------------------------------------------------------*/
 #define LENOVO_MB_CMD_SYNC          0x42
-#define LENOVO_MB_CMD_APPLY_1       0x2D
-#define LENOVO_MB_CMD_APPLY_2       0x5E
+#define LENOVO_MB_CMD_APPLY         0x2D
+#define LENOVO_MB_CMD_SAVE          0x5E
 
 /*---------------------------------------------------------*\
 | The ambient light has no color and only supports Off,     |
@@ -86,6 +93,7 @@ public:
     void SetMode(uint8_t zone, uint8_t mode, uint8_t brightness, uint8_t speed, RGBColor color);
     void DisableSync();
     void Apply();
+    void Save();
 
 private:
     hid_device* dev;

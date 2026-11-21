@@ -36,16 +36,17 @@ static const lenovo_mb_zone lenovo_mb_zones[LENOVO_MB_NUMBER_OF_ZONES] =
     @name LenovoMotherboard mouse
     @category Motherboard
     @type USB
-    @save :x:
+    @save :warning:
     @direct :warning:
     @effects :white_check_mark:
     @detectors DetectLenovoMotherboardControllers
-    @comment Direct mode is only offered on boards tested to not save
-        to flash (Legion T5 Gen 10, board 3787).  Other boards keep
-        the automatic save flag on every mode.
+    @comment Direct mode and Save To Device are only offered on boards
+        tested to write flash only on the save command (Legion T5
+        Gen 10, boards 3787 and 378B).  Other boards keep the
+        automatic save flag on every mode.
 \*-------------------------------------------------------------------*/
 
-RGBController_LenovoMotherboard::RGBController_LenovoMotherboard(LenovoMotherboardController* controller_ptr, bool saves_to_flash)
+RGBController_LenovoMotherboard::RGBController_LenovoMotherboard(LenovoMotherboardController* controller_ptr, bool manual_save)
 {
     controller                  = controller_ptr;
 
@@ -57,13 +58,15 @@ RGBController_LenovoMotherboard::RGBController_LenovoMotherboard(LenovoMotherboa
     serial                      = controller->GetSerialString();
 
     /*-----------------------------------------------------*\
-    | Boards that save every mode change to flash can't be  |
-    | used for realtime effects without wearing the flash   |
-    | out, so they keep the save flag and get no Direct mode|
+    | Boards not known to only save on request may save     |
+    | every mode change to flash.  They can't be used for   |
+    | realtime effects without wearing the flash out, so    |
+    | they keep the automatic save flag and get no Direct   |
+    | mode.                                                 |
     \*-----------------------------------------------------*/
-    unsigned int save_flag      = saves_to_flash ? MODE_FLAG_AUTOMATIC_SAVE : 0;
+    unsigned int save_flag      = manual_save ? MODE_FLAG_MANUAL_SAVE : MODE_FLAG_AUTOMATIC_SAVE;
 
-    if(!saves_to_flash)
+    if(manual_save)
     {
         mode Direct;
         Direct.name             = "Direct";
@@ -293,4 +296,18 @@ void RGBController_LenovoMotherboard::DeviceUpdateSingleLED(int /*led*/)
 void RGBController_LenovoMotherboard::DeviceUpdateMode()
 {
     DeviceUpdateLEDs();
+}
+
+void RGBController_LenovoMotherboard::DeviceSaveMode()
+{
+    /*-----------------------------------------------------*\
+    | Direct mode is for realtime control and is never      |
+    | saved to flash                                        |
+    \*-----------------------------------------------------*/
+    if(!(modes[active_mode].flags & MODE_FLAG_MANUAL_SAVE))
+    {
+        return;
+    }
+
+    controller->Save();
 }

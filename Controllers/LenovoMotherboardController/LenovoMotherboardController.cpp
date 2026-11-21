@@ -95,8 +95,12 @@ void LenovoMotherboardController::DisableSync()
 
 void LenovoMotherboardController::Apply()
 {
-    SendCommand(LENOVO_MB_CMD_APPLY_1, 0xFF, 0xFF);
-    SendCommand(LENOVO_MB_CMD_APPLY_2, 0x00, 0x00);
+    SendCommand(LENOVO_MB_CMD_APPLY, 0xFF, 0xFF);
+}
+
+void LenovoMotherboardController::Save()
+{
+    SendCommand(LENOVO_MB_CMD_SAVE, 0x00, 0x00);
 }
 
 void LenovoMotherboardController::SendCommand(uint8_t command, uint8_t arg_1, uint8_t arg_2)

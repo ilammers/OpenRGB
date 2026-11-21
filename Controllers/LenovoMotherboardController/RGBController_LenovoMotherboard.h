@@ -17,7 +17,7 @@
 class RGBController_LenovoMotherboard : public RGBController
 {
 public:
-    RGBController_LenovoMotherboard(LenovoMotherboardController* controller_ptr, bool saves_to_flash);
+    RGBController_LenovoMotherboard(LenovoMotherboardController* controller_ptr, bool manual_save);
     ~RGBController_LenovoMotherboard();
 
     void SetupZones();
@@ -27,6 +27,7 @@ public:
     void DeviceUpdateSingleLED(int led);
 
     void DeviceUpdateMode();
+    void DeviceSaveMode();
 
 private:
     LenovoMotherboardController* controller;
