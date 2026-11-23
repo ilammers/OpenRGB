@@ -45,6 +45,20 @@ std::vector<unsigned int> corsair_full_size_values =
        105,  108,  107,               44,              111,  122,  101,  109,               80,   81,   79,   98,         99,
 };
 
+std::vector<unsigned int> corsair_sixty_values =
+{
+    /* ESC     1     2     3     4     5     6     7     8     9     0     -     =   BSPC   */
+       41,     30,  31,   32,   33,   34,   35,   36,   37,   38,   39,   45,   46,    42,
+    /* TAB     Q     W     E     R     T     Y     U     I     O     P     [     ]      \   */
+       43,     20,  26,    8,   21,   23,   28,   24,   12,   18,   19,   47,   48,    49,
+    /* CPLK    A     S     D     F     G     H     J     K     L     ;     "     #   ENTR   */
+       57,     4,   22,    7,    9,   10,   11,   13,   14,   15,   51,   52,   50,    40,
+    /* LSFT ISO\     Z     X     C     V     B     N     M     ,     .     /  RSFT          */
+       106,  100,   29,   27,    6,   25,    5,   17,   16,   54,   55,   56,  110,
+    /* LCTL LWIN  LALT                     SPC                    RALT  RFNC  RMNU   RCTL   */
+       105,  108,  107,                     44,                    111,  122,  101,   109,
+};
+
 /*-------------------------------------------------------------------------*\
 |  KEYMAPS                                                                  |
 \*-------------------------------------------------------------------------*/
@@ -107,6 +121,26 @@ keyboard_keymap_overlay_values corsair_K60_tkl_layout
     }
 };
 
+keyboard_keymap_overlay_values corsair_K65_mini_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        corsair_sixty_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         41,         KEY_EN_ESCAPE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Replace ` with Esc
+        {   0,      4,       4,         0,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Underglow Left
+        {   0,      4,       8,         1,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Underglow Right
+    }
+};
+
 keyboard_keymap_overlay_values corsair_k70_layout
 {
     KEYBOARD_SIZE::KEYBOARD_SIZE_FULL,
@@ -149,6 +183,26 @@ keyboard_keymap_overlay_values corsair_k70_pro_layout
         {   0,      1,      20,         125,        KEY_EN_MEDIA_NEXT,          KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert Next Tack Key
         {   0,      6,       5,         140,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert spacebar L
         {   0,      6,       7,         141,        KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_INSERT_SHIFT_RIGHT, },  // Insert spacebar R
+    }
+};
+
+keyboard_keymap_overlay_values corsair_k70_pro_mini_wireless_layout
+{
+    KEYBOARD_SIZE::KEYBOARD_SIZE_SIXTY,
+    {
+        corsair_sixty_values,
+        {
+            /* Add more regional layout fixes here */
+        }
+    },
+    {
+        /*-------------------------------------------------------------------------------------------------------------------------------------*\
+        | Edit Keys                                                                                                                             |
+        |   Zone,   Row,    Column,     Value,      Name,                       Alternate Name,             OpCode                              |
+        \*-------------------------------------------------------------------------------------------------------------------------------------*/
+        {   0,      0,       0,         41,         KEY_EN_ESCAPE,              KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Escape LED value; the base layout resets it to 0
+        {   0,      4,       5,         0,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Left LED
+        {   0,      4,       7,         1,          KEY_EN_SPACE,               KEY_EN_UNUSED,              KEYBOARD_OPCODE_SWAP_ONLY,          },  // Spacebar Right LED
     }
 };
 
@@ -440,7 +494,9 @@ static const corsair_v2_device dark_core_se_device =
         &dark_core_se_right_zone,
         &dark_core_se_dpi_zone
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -528,7 +584,9 @@ static const corsair_v2_device dark_core_pro_se_device =
         &dark_core_pro_se_right_zone,
         &dark_core_pro_se_dpi_zone
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -570,7 +628,9 @@ static const corsair_v2_device harpoon_wireless_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -635,7 +695,9 @@ static const corsair_v2_device ironclaw_wireless_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -700,7 +762,9 @@ static const corsair_v2_device ironclaw_wireless_se_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -743,7 +807,9 @@ static const corsair_v2_device katar_pro_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -786,7 +852,9 @@ static const corsair_v2_device katar_pro_v2_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -829,7 +897,9 @@ static const corsair_v2_device katar_pro_xt_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -861,7 +931,9 @@ static const corsair_v2_device k55_rgb_pro_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -893,7 +965,43 @@ static const corsair_v2_device k57_rgb_wired_device =
         nullptr,
         nullptr
     },
-    &corsair_K57_layout
+    &corsair_K57_layout,
+    0x5F,
+    65
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair K65 Mini 1B1C:1BAF                                   |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       6 Rows, 14 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k65_mini_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    6,
+    14
+};
+
+static const corsair_v2_device k65_mini_device =
+{
+    CORSAIR_K65_MINI_PID,
+    DEVICE_TYPE_KEYBOARD,
+    6,
+    14,
+    {
+        &k65_mini_zone,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
+    },
+    &corsair_K65_mini_layout,
+    0x6E,
+    1025
 };
 
 /*-------------------------------------------------------------*\
@@ -925,7 +1033,9 @@ static const corsair_v2_device k60_rgb_pro_device =
         nullptr,
         nullptr
     },
-    &corsair_K60_layout
+    &corsair_K60_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -947,7 +1057,9 @@ static const corsair_v2_device k60_rgb_pro_se_device =
         nullptr,
         nullptr
     },
-    &corsair_K60_layout
+    &corsair_K60_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -979,7 +1091,9 @@ static const corsair_v2_device k60_rgb_pro_lp_device =
         nullptr,
         nullptr
     },
-    &corsair_K60_layout
+    &corsair_K60_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1012,7 +1126,9 @@ static const corsair_v2_device k60_rgb_pro_tkl_device_b =
         nullptr,
         nullptr
     },
-    &corsair_K60_tkl_layout
+    &corsair_K60_tkl_layout,
+    0x5F,
+    65
 };
 
 static const corsair_v2_device k60_rgb_pro_tkl_device_w =
@@ -1029,7 +1145,9 @@ static const corsair_v2_device k60_rgb_pro_tkl_device_w =
         nullptr,
         nullptr
     },
-    &corsair_K60_tkl_layout
+    &corsair_K60_tkl_layout,
+    0x5F,
+    65
 };
 
 
@@ -1062,7 +1180,9 @@ static const corsair_v2_device k70_core_rgb_device =
         nullptr,
         nullptr
     },
-    &corsair_k70_layout
+    &corsair_k70_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1094,7 +1214,53 @@ static const corsair_v2_device k70_rgb_tkl_device =
         nullptr,
         nullptr
     },
-    &corsair_K70_TKL_cs_layout
+    &corsair_K70_TKL_cs_layout,
+    0x5F,
+    65
+};
+
+/*-------------------------------------------------------------*\
+|  Corsair K70 PRO MINI WIRELESS 1B1C:1BB6 (Black)              |
+|  Corsair K70 PRO MINI WIRELESS 1B1C:1BD3 (White)              |
+|                                                               |
+|  Zone "Keyboard"                                              |
+|       Matrix                                                  |
+|       5 Rows, 14 Columns                                      |
+\*-------------------------------------------------------------*/
+static const corsair_v2_zone k70_pro_mini_wireless_zone =
+{
+    ZONE_EN_KEYBOARD,
+    ZONE_TYPE_MATRIX,
+    5,
+    14
+};
+
+static const corsair_v2_device k70_pro_mini_wireless_black_device =
+{
+    CORSAIR_K70_PRO_MINI_WIRELESS_B_PID,
+    DEVICE_TYPE_KEYBOARD,
+    5,
+    14,
+    {
+        &k70_pro_mini_wireless_zone,
+    },
+    &corsair_k70_pro_mini_wireless_layout,
+    0x5F,
+    1025
+};
+
+static const corsair_v2_device k70_pro_mini_wireless_white_device =
+{
+    CORSAIR_K70_PRO_MINI_WIRELESS_W_PID,
+    DEVICE_TYPE_KEYBOARD,
+    5,
+    14,
+    {
+        &k70_pro_mini_wireless_zone,
+    },
+    &corsair_k70_pro_mini_wireless_layout,
+    0x5F,
+    1025
 };
 
 /*-------------------------------------------------------------*\
@@ -1126,7 +1292,9 @@ static const corsair_v2_device k70_core_rgb_tkl_device =
         nullptr,
         nullptr
     },
-    &corsair_K70_CORE_TKL_layout
+    &corsair_K70_CORE_TKL_layout,
+    0x5F,
+    65
 };
 
 
@@ -1159,7 +1327,9 @@ static const corsair_v2_device k70_rgb_tkl_cs_device =
         nullptr,
         nullptr
     },
-    &corsair_K70_TKL_cs_layout
+    &corsair_K70_TKL_cs_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1191,7 +1361,9 @@ static const corsair_v2_device k70_rgb_pro_device =
         nullptr,
         nullptr
     },
-    &corsair_k70_pro_layout
+    &corsair_k70_pro_layout,
+    0x5F,
+    129
 };
 
 /*-------------------------------------------------------------*\
@@ -1215,7 +1387,9 @@ static const corsair_v2_device k70_rgb_pro_v2_device =
             nullptr,
             nullptr
         },
-        &corsair_k70_pro_layout
+        &corsair_k70_pro_layout,
+    0x5F,
+    1025
 };
 
 /*-------------------------------------------------------------*\
@@ -1255,7 +1429,9 @@ static const corsair_v2_device k95_platinum_xt_device =
         nullptr,
         nullptr
     },
-    &corsair_k95_layout
+    &corsair_k95_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1288,7 +1464,9 @@ static const corsair_v2_device k100_mx_red_device =
         nullptr,
         nullptr
     },
-    &corsair_k100_layout
+    &corsair_k100_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1321,7 +1499,9 @@ static const corsair_v2_device k100_rgb_opt_v1_device =
         nullptr,
         nullptr
     },
-    &corsair_k100_layout
+    &corsair_k100_layout,
+    0x5F,
+    1025
 };
 
 /*-------------------------------------------------------------*\
@@ -1346,7 +1526,9 @@ static const corsair_v2_device k100_rgb_opt_v2_device =
         nullptr,
         nullptr
     },
-    &corsair_k100_layout
+    &corsair_k100_layout,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1389,7 +1571,9 @@ static const corsair_v2_device m55_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1443,7 +1627,9 @@ static const corsair_v2_device m65_rgb_ultra_wired_device =
             nullptr,
             nullptr
         },
-        nullptr
+        nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1485,7 +1671,9 @@ static const corsair_v2_device m65_ultra_rgb_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1527,7 +1715,9 @@ static const corsair_v2_device m75_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1565,7 +1755,9 @@ static const corsair_v2_device m75_wireless_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1643,7 +1835,9 @@ static const corsair_v2_device scimitar_elite_v2_device =
         &scimitar_elite_front_left_zone,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------*\
@@ -1694,7 +1888,9 @@ static const corsair_v2_device mm700_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 static const corsair_v2_device mm700_3xl_device =
@@ -1711,7 +1907,9 @@ static const corsair_v2_device mm700_3xl_device =
         nullptr,
         nullptr
     },
-    nullptr
+    nullptr,
+    0x5F,
+    65
 };
 
 /*-------------------------------------------------------------------------*\
@@ -1729,8 +1927,11 @@ const corsair_v2_device* corsair_v2_device_list_data[] =
     &k60_rgb_pro_lp_device,
     &k60_rgb_pro_tkl_device_b,
     &k60_rgb_pro_tkl_device_w,
+    &k65_mini_device,
     &k70_core_rgb_device,
     &k70_core_rgb_tkl_device,
+    &k70_pro_mini_wireless_black_device,
+    &k70_pro_mini_wireless_white_device,
     &k70_rgb_pro_device,
     &k70_rgb_pro_v2_device,
     &k70_rgb_tkl_device,
